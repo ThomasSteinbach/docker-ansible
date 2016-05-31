@@ -5,15 +5,32 @@ MAINTAINER Thomas Steinbach <thomas.steinbach@aikq.de>
 RUN \
  apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get -y install \
+  git \
   ssh-client \
   vim \
   python-pip \
-  python-docker && \
- apt-get clean && \
- apt-get autoclean
+  python-docker \
+  apt-transport-https && \
+apt-key adv \
+  --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+  --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
+echo 'deb https://apt.dockerproject.org/repo debian-jessie main' > /etc/apt/sources.list.d/docker.list && \
+apt-get update && \
+DEBIAN_FRONTEND=noninteractive apt-get install -y docker-engine && \
+apt-get clean && \
+apt-get autoremove
 
 # install requirements from pip
 RUN pip install paramiko PyYAML Jinja2 httplib2 six
+RUN pip install paramiko==2.0.0 \
+                PyYAML==3.11 \
+                Jinja2==2.8 \
+                httplib2==0.9.2 \
+                six==1.10.0 \
+                markupsafe==0.23 \
+                pycrypto==2.6.1
+
+RUN adduser --disabled-password --gecos '' uid1000
 
 # create ansibles default inventory dummy
 RUN mkdir -p /etc/ansible && \
@@ -23,8 +40,6 @@ RUN mkdir -p /etc/ansible && \
 # add start script
 ADD start.sh /usr/local/bin/start.sh
 RUN chmod 0655 /usr/local/bin/start.sh
-
-RUN adduser --disabled-password --gecos '' uid1000
 
 # create directories for Ansible repositories
 RUN mkdir /ansible && \
@@ -36,9 +51,13 @@ RUN mkdir /ansible && \
 
 USER uid1000
 
-# clone repositories
+# clone official repository
 RUN git clone --recursive git://github.com/ansible/ansible.git /ansible_official && \
-    git clone --recursive git@github.com:ThomasSteinbach/ansible.git /ansible_thomassteinbach
+    cd /ansible_official && \
+    git reset --hard v2.1.0.0-1
+
+# clone thomass repository
+RUN git clone --recursive https://github.com/ThomasSteinbach/ansible.git /ansible_thomassteinbach
 
 WORKDIR /ansible
 ENTRYPOINT ["start.sh"]

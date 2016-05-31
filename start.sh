@@ -3,7 +3,7 @@
 set -e
 
 if [[ ! -z "$LOCAL_USER" ]]; then
-  echo "localhost ansible_ssh_host=172.17.0.1 ansible_ssh_user=$LOCAL_USER" > .inventory_temp
+  echo "localhost ansible_ssh_host=172.17.0.1 ansible_ssh_user=$LOCAL_USER" > /etc/ansible/hosts
 fi
 
 if [[ "$USE_THOMASS_REPO" = 'true' ]]; then
@@ -19,17 +19,20 @@ if [[ "$UPDATE_REPO" = 'true' ]]; then
 fi
 
 if [[ ! -z "$BRANCH" ]]; then
-  git reset --hard origin/HEAD
   cd "$REPO"
+  git reset --hard origin/HEAD
   git checkout "$BRANCH"
+  git submodule update --init --recursive
 fi
 
 if [[ ! -z "$VERSION" ]]; then
-  git reset --hard origin/HEAD
   cd "$REPO"
   git reset --hard "$VERSION"
+  git submodule update --init --recursive
 fi
 
 source "${REPO}/hacking/env-setup" -q
+
+cd /ansible
 
 exec "$@"
