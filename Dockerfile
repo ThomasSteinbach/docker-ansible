@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Thomas Steinbach <thomas.steinbach@aikq.de>
+MAINTAINER Thomas Steinbach (@aikq.de)
 
 # install requirements from repos
 RUN \
