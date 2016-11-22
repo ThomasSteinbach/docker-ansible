@@ -54,7 +54,7 @@ USER uid1000
 # clone official repository
 RUN git clone --recursive git://github.com/ansible/ansible.git /ansible_official && \
     cd /ansible_official && \
-    git reset --hard v2.1.0.0-1
+    git reset --hard v2.2.0.0-1
 
 # clone thomass repository
 RUN git clone --recursive https://github.com/ThomasSteinbach/ansible.git /ansible_thomassteinbach
