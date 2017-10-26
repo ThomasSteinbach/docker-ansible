@@ -21,7 +21,6 @@ apt-get clean && \
 apt-get autoremove
 
 # install requirements from pip
-RUN pip install paramiko PyYAML Jinja2 httplib2 six
 RUN pip install paramiko==2.0.0 \
                 PyYAML==3.11 \
                 Jinja2==2.8 \
@@ -43,21 +42,16 @@ RUN chmod 0655 /usr/local/bin/start.sh
 
 # create directories for Ansible repositories
 RUN mkdir /ansible && \
-    mkdir /ansible_official && \
-    mkdir /ansible_thomassteinbach && \
+    mkdir /opt/ansible && \
     chown uid1000:uid1000 /ansible && \
-    chown uid1000:uid1000 /ansible_official && \
-    chown uid1000:uid1000 /ansible_thomassteinbach
+    chown uid1000:uid1000 /opt/ansible
 
 USER uid1000
 
 # clone official repository
-RUN git clone --recursive git://github.com/ansible/ansible.git /ansible_official && \
-    cd /ansible_official && \
-    git reset --hard v2.2.0.0-1
-
-# clone thomass repository
-RUN git clone --recursive https://github.com/ThomasSteinbach/ansible.git /ansible_thomassteinbach
+RUN git clone --recursive git://github.com/ansible/ansible.git /opt/ansible && \
+    cd /opt/ansible && \
+    git reset --hard v2.4.1.0-1
 
 WORKDIR /ansible
 ENTRYPOINT ["start.sh"]
