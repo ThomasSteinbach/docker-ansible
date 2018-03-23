@@ -8,13 +8,13 @@ RUN \
   ssh-client \
   vim \
   docker.io \
-  python3-pip \
+  python-pip \
   python-docker &&\
 apt-get clean && \
 apt-get autoremove
 
 # install ansible
-RUN pip3 install ansible
+RUN pip install ansible
 
 RUN adduser --disabled-password --gecos '' uid1000
 
