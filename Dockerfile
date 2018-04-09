@@ -7,6 +7,7 @@ RUN \
  DEBIAN_FRONTEND=noninteractive apt-get -y install \
   ssh-client \
   vim \
+  sudo \
   docker.io \
   python-pip \
   python-docker &&\
