@@ -1,5 +1,5 @@
-FROM ubuntu:17.10
-MAINTAINER Thomas Steinbach (@aikq.de)
+FROM ubuntu:18.04
+LABEL maintainer="Thomas Steinbach"
 
 # install requirements from repos
 RUN \
@@ -9,19 +9,22 @@ RUN \
   vim \
   sudo \
   docker.io \
-  python-pip \
-  python-docker &&\
+  python3-pip \
+  python3-docker &&\
 apt-get clean && \
-apt-get autoremove
+apt-get autoremove && \
+rm -rf /var/lib/apt/lists/*
+
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # install ansible
-RUN pip install ansible
+RUN pip3 install ansible=2.6.2
 
 RUN adduser --disabled-password --gecos '' uid1000
 
 # create ansibles default inventory dummy
 RUN mkdir -p /etc/ansible && \
-    touch /etc/ansible/hosts && \
+    printf '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts && \
     chown uid1000:uid1000 /etc/ansible/hosts
 
 # add start script
@@ -32,7 +35,8 @@ RUN chmod 0655 /usr/local/bin/start.sh
 RUN mkdir /ansible && \
     chown uid1000:uid1000 /ansible
 
+WORKDIR /ansible
+
 USER uid1000
 
-WORKDIR /ansible
 ENTRYPOINT ["start.sh"]
