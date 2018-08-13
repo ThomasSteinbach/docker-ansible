@@ -10,6 +10,7 @@ RUN \
   sudo \
   docker.io \
   python3-pip \
+  python3-setuptools \
   python3-docker &&\
 apt-get clean && \
 apt-get autoremove && \
