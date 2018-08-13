@@ -4,7 +4,7 @@ LABEL maintainer="Thomas Steinbach"
 # install requirements from repos
 RUN \
  apt-get update && \
- DEBIAN_FRONTEND=noninteractive apt-get -y install \
+ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   ssh-client \
   vim \
   sudo \
@@ -18,7 +18,7 @@ rm -rf /var/lib/apt/lists/*
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # install ansible
-RUN pip3 install ansible=2.6.2
+RUN pip3 install ansible==2.6.2
 
 RUN adduser --disabled-password --gecos '' uid1000
 
@@ -28,7 +28,7 @@ RUN mkdir -p /etc/ansible && \
     chown uid1000:uid1000 /etc/ansible/hosts
 
 # add start script
-ADD start.sh /usr/local/bin/start.sh
+COPY start.sh /usr/local/bin/start.sh
 RUN chmod 0655 /usr/local/bin/start.sh
 
 # create directories for Ansible repositories
