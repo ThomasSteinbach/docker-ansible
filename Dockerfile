@@ -1,25 +1,13 @@
-FROM ubuntu:18.04
+FROM alpine:3.8
 LABEL maintainer="Thomas Steinbach"
 
 # install requirements from repos
 RUN \
- apt-get update && \
- DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  ssh-client \
-  vim \
-  sudo \
-  docker.io \
-  python3-pip \
-  python3-setuptools \
-  python3-docker &&\
-apt-get clean && \
-apt-get autoremove && \
-rm -rf /var/lib/apt/lists/*
-
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
-# install ansible
-RUN pip3 install ansible==2.6.2
+  apk update && \
+  apk add \
+    ansible \
+    sudo \
+    openssh-client
 
 RUN adduser --disabled-password --gecos '' uid1000
 
