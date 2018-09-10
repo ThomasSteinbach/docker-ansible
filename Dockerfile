@@ -3,11 +3,11 @@ LABEL maintainer="Thomas Steinbach"
 
 # install requirements from repos
 RUN \
-  apk update && \
-  apk add \
+  apk add --no-cache \
     ansible \
     sudo \
-    openssh-client
+    openssh-client && \
+  rm -rf /var/cache/apk/*
 
 RUN adduser --disabled-password --gecos '' uid1000
 
