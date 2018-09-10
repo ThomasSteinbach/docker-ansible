@@ -9,6 +9,8 @@ RUN \
     openssh-client && \
   rm -rf /var/cache/apk/*
 
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 RUN adduser --disabled-password --gecos '' uid1000
 
 # create ansibles default inventory dummy

@@ -33,7 +33,12 @@ debug-failed-build:
   dependencies:
     - build
 
-playbook-run:
+test:ansible-version:
+  stage: test
+  image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
+  script: ansible --version
+
+test:playbook:
   stage: test
   image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
   script: ansible-playbook test/site.yml
