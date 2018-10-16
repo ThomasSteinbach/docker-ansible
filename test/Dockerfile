@@ -1,4 +1,4 @@
 ARG BASEIMAGE
-FROM ${BASEIMGE}
+FROM ${BASEIMAGE}
 
 COPY site.yml /ansible/site.yml
