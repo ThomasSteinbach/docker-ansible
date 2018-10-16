@@ -6,8 +6,8 @@ image: docker:latest
 stages:
   - lint
   - build
-  - build2
   - debug
+  - build2
   - test
   - publish
 
@@ -34,7 +34,7 @@ debug-failed-build:
   dependencies:
     - build
 
-build:
+build-custom-image:
   stage: build2
   script:
     - *docker-login
