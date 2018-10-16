@@ -6,6 +6,7 @@ image: docker:latest
 stages:
   - lint
   - build
+  - build2
   - debug
   - test
   - publish
@@ -33,6 +34,13 @@ debug-failed-build:
   dependencies:
     - build
 
+build:
+  stage: build2
+  script:
+    - *docker-login
+    - docker build --build-arg "BASEIMAGE=${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}" -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom" .
+    - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom"
+
 test:ansible-version:
   stage: test
   image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
@@ -42,6 +50,10 @@ test:playbook:
   stage: test
   image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
   script: ansible-playbook test/site.yml
+
+test:custom_image:
+  stage: test
+  script: docker run --rm "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom"
 
 dockerhub:
   stage: publish
