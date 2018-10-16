@@ -38,6 +38,7 @@ build-custom-image:
   stage: build2
   script:
     - *docker-login
+    - cd test
     - docker build --build-arg "BASEIMAGE=${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}" -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom" .
     - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom"
 
