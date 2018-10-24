@@ -23,6 +23,11 @@ if [[ ! -z "$LOCAL_USER" ]]; then
   echo "localhost ansible_ssh_host=172.17.0.1 ansible_ssh_user=$LOCAL_USER" > /etc/ansible/hosts
 fi
 
+if [[ ! -z "$SSH_KEY" ]]; then
+  echo "$SSH_KEY" > /home/uid1000/.ssh/id_rsa
+  chmod 0600 /home/uid1000/.ssh/id_rsa
+fi
+
 # When script is called with zero parameters
 if [ $# -eq 0 ]; then
   # for derived ansible docker images check if a playbook is provided

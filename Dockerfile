@@ -30,4 +30,7 @@ WORKDIR /ansible
 
 USER uid1000
 
+RUN mkdir /home/uid1000/.ssh && \
+    chmod 0700 /home/uid1000/.ssh
+
 ENTRYPOINT ["start.sh"]

@@ -38,7 +38,7 @@ build-custom-image:
   stage: build2
   script:
     - *docker-login
-    - cd test
+    - cd test/local
     - docker build --build-arg "BASEIMAGE=${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}" -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom" .
     - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom"
 
@@ -55,6 +55,10 @@ test:playbook:
 test:custom_image:
   stage: test
   script: docker run --rm "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom"
+
+test:privatekey:
+  stage: test
+  image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
 
 dockerhub:
   stage: publish
