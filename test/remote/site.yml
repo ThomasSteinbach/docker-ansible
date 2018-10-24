@@ -1,0 +1,7 @@
+- name: test playbook
+  hosts: ssh-server
+  tasks:
+
+    - name: test task
+      debug:
+        msg: "Does it work?"

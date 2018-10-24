@@ -59,7 +59,39 @@ test:custom_image:
 .test:privatekey:
   stage: test
   image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
-  script: todo
+  services:
+    - name: thomass/ssh-testserver
+      alias: ssh-server
+  script: ansible-playbook test/remote/site.yml
+  variables:
+    SSH_KEY: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEpAIBAAKCAQEAwYboebzT0tD6b1cVbBylcsge+tf9bhIIw5sV9exMCC4pmUuB
+            ope2AceW+FeRFESkIn3JsegjjT5Tqd8yTn2AgK9fsr28Po7IHp9zuvni2ZkItUHZ
+            8q0tkXREEIz8QP5j8SndB4gsF1txJDljvG+ye9ZU5Z8y0zvy+kefDDniDfybwCpW
+            3VqwTrkV85XRAExSgvRAyGCOnWLsUqFO7tFV1nobDWnTOGQ9pXxkrBLpCc/H0flP
+            7m+VH9VX6OT9WuBEYa5b9xmhDQz5vG2bn2M/w0iNLPICk7+4KbHT7cTEofYVCile
+            KCoxtQRavGxyU67U9v39IU/tFLH7SHo5jdfRVwIDAQABAoIBAQCZdiJpTsxmMyM0
+            IUkyhvDHuVufrKEhpJlgi115utx77Cc+kTqGNWm1tZDI859vBBNn6nmDY0K14UO0
+            w/H/fdPlt6vacEyTCuQ0LFs4XKl/xbO7EDIFF0C4RAspWLM70r5r4beNHnVgPDnW
+            8M9fAO/29Xoy7+/8w2AlCaBcsJXKYjFgRirMvNd5FQrpWqa3JHKCQJy/PM1UmO0B
+            YiQ2Cj9Gnbb4aqeeT7Be+ek0/5+NRgkGxFkPQ3b43OeFGClac97A0xT6CNWgiJaB
+            G2k2sAgH+kTRs4XEDABh0duv1ONsBQ4xOcSnezdMLPvfkYv7Z3QTcqhLT6YEzT5b
+            2VCzngHJAoGBAO1NO7dJbKgX+LzxFxIzFAYgT0hda4iQyXpAcQsKJK8Y/O36CH5l
+            xmOYeBydWef+OQuIe8RUhkfJUFKTPrn7GZjXtI+AI/Pe4LmIqpsHdfCJoEhodsG4
+            58TDbvWNIRR+uJYfJpxbuEcQHTwlHGvwRzuNBCqyLSKZf7WEEUaeOqN1AoGBANDG
+            qrA2pc0IepDZXXM2hcL8SoYbABMmg45sdP603X2/H9wWIrx+6s12K8M32IrqQGfX
+            Zay5w+mZb2iVejZqakbZC0WxfI/wD0fdGAdWMWw/zvQftueyNcO8eaDv1fYw4gdM
+            WVeXsCIarW+F0rvoP01Xjw6OaBGbEP8bp/wFF8QbAoGASLuOXQw1MIRAafDfKGXd
+            ck8+3ag8iFwQVNchjseqHLzk8S/coJkjKG2YCvUzlEa4R0+q168shR4v709QP4K2
+            AsHChuU4n8ulR1ibKe8sd/BG30qdc5zv9MAN51c9V2HLw7+CfxQhtC49N60MPA0m
+            WBtNtqRr7xnrKcBz5xgiUu0CgYEAuaReNJBzP+zRJ6nQmdkaefZiwfqSR3UQt/0i
+            zzW+WckwKECapKfqW8Y/RbiL2YJQwMVciIkqdrZTxVhdMrPPSq5GgrM+wrLAs7Ma
+            YbO4ALyAZr0oo7/oZONb98orpF11Lu4p52RfXwP/wlHpv+LVHw3DjDr+uOD87QsH
+            hWZ16o8CgYAaTnLzjbSqvM3+F08mHGo+jWkiPXAQ7mFyCAgFbJ52m0ZeAeU/jGpe
+            waPMT5tkvcVh4hpawZnirt3VwQZcNGkqOp/AeoSHS8/cEPCZrMshqdYC6tqyKBMA
+            CarpN8XgBikSskCsACxQd1+THc0hsfSAGq4eQRC4FR4NvTmYM0Ck4Q==
+            -----END RSA PRIVATE KEY-----
 
 dockerhub:
   stage: publish
