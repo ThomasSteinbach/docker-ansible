@@ -1,6 +1,6 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-COPY site.yml /ansible/site.yml
+COPY . /ansible/
 RUN cd /ansible && \
     ansible-galaxy install -r requirements.yml
