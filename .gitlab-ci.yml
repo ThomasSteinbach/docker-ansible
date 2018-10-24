@@ -52,11 +52,11 @@ test:playbook:
   image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
   script: ansible-playbook test/local/site.yml
 
-test:custom_image:
+test:custom-image:
   stage: test
   script: docker run --rm "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-custom"
 
-.test:privatekey:
+test:privatekey:
   stage: test
   image: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
   services:
