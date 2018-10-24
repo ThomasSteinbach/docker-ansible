@@ -6,7 +6,8 @@ RUN \
   apk add --no-cache \
     ansible \
     sudo \
-    openssh-client && \
+    openssh-client \
+    git && \
   rm -rf /var/cache/apk/*
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
